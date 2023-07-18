@@ -1,7 +1,7 @@
 package com.epam.rd.autocode.concurrenttictactoe;
 
 public class PlayerImpl implements Player {
-    private final char WHITESPACE = ' ';
+    private static final char WHITE_SPACE = ' ';
 
     private final TicTacToe ticTacToe;
     private final char mark;
@@ -31,7 +31,7 @@ public class PlayerImpl implements Player {
     private boolean isNotFull() {
         for (int i = 0; i < ticTacToe.table().length; i++) {
             for (int j = 0; j < ticTacToe.table().length; j++) {
-                if (ticTacToe.table()[i][j] == WHITESPACE) {
+                if (ticTacToe.table()[i][j] == WHITE_SPACE) {
                     return true;
 
                 }
@@ -72,7 +72,7 @@ public class PlayerImpl implements Player {
             }
             cellValue = ticTacToe.table()[row][i];
         }
-        return cellValue != WHITESPACE;
+        return cellValue != WHITE_SPACE;
     }
 
     private boolean isColumnDone(int column) {
@@ -83,7 +83,7 @@ public class PlayerImpl implements Player {
             }
             cellValue = ticTacToe.table()[i][column];
         }
-        return cellValue != WHITESPACE;
+        return cellValue != WHITE_SPACE;
     }
 
     private boolean isMainDiagonalDone() {
@@ -94,7 +94,7 @@ public class PlayerImpl implements Player {
             }
             cellValue = ticTacToe.table()[i][i];
         }
-        return cellValue != WHITESPACE;
+        return cellValue != WHITE_SPACE;
     }
 
     private boolean isSideDiagonalDone() {
@@ -106,7 +106,7 @@ public class PlayerImpl implements Player {
             }
             cellValue = ticTacToe.table()[lastRow - i][i];
         }
-        return cellValue != WHITESPACE;
+        return cellValue != WHITE_SPACE;
     }
 }
 
