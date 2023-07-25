@@ -16,42 +16,41 @@ public class PlayerImpl implements Player {
     @Override
     public void run() {
         while (isNotGameEnded() && isNotFull()) {
-            synchronized (ticTacToe) {
                 if (isPossibleToMove()) {
                     Move move = strategy.computeMove(mark, ticTacToe);
                     ticTacToe.setMark(move.row, move.column, mark);
-                }
 
             }
         }
-
     }
 
 
     private boolean isNotFull() {
-        for (int i = 0; i < ticTacToe.table().length; i++) {
-            for (int j = 0; j < ticTacToe.table().length; j++) {
-                if (ticTacToe.table()[i][j] == WHITE_SPACE) {
-                    return true;
+        synchronized (ticTacToe) {
+            for (int i = 0; i < ticTacToe.table().length; i++) {
+                for (int j = 0; j < ticTacToe.table().length; j++) {
+                    if (ticTacToe.table()[i][j] == WHITE_SPACE) {
+                        return true;
 
+                    }
                 }
             }
+            return false;
         }
-        return false;
     }
 
     private boolean isGameEnded() {
-        if (isMainDiagonalDone() || isSideDiagonalDone()) {
-            return true;
-        }
-        for (int i = 0; i < ticTacToe.table().length; i++) {
-            if (isRowDone(i) || isColumnDone(i)) {
+        synchronized (ticTacToe) {
+            if (isMainDiagonalDone() || isSideDiagonalDone()) {
                 return true;
             }
+            for (int i = 0; i < ticTacToe.table().length; i++) {
+                if (isRowDone(i) || isColumnDone(i)) {
+                    return true;
+                }
+            }
+            return false;
         }
-
-        return false;
-
     }
 
     private boolean isNotGameEnded() {
@@ -60,7 +59,9 @@ public class PlayerImpl implements Player {
 
 
     private boolean isPossibleToMove() {
-        return isNotFull() && isNotGameEnded() && ticTacToe.lastMark() != mark;
+        synchronized (ticTacToe) {
+            return isNotFull() && isNotGameEnded() && ticTacToe.lastMark() != mark;
+        }
     }
 
     private boolean isRowDone(int row) {
